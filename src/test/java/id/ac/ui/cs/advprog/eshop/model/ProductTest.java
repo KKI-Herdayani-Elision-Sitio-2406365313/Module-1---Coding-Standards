@@ -1,32 +1,32 @@
-package id.ac.ui.cs.advprog.eshop.repository;
+package id.ac.ui.cs.advprog.eshop.model;
 
-import id.ac.ui.cs.advprog.eshop.model.Product;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.junit.jupiter.MockitoExtension;
-import java.util.Iterator;
 import static org.junit.jupiter.api.Assertions.*;
 
-@ExtendWith(MockitoExtension.class)
-class ProductRepositoryTest {
+class ProductTest {
+    Product product;
 
-    @InjectMocks
-    ProductRepository productRepository;
+    @BeforeEach
+    void setUp() {
+        this.product = new Product();
+        this.product.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
+        this.product.setProductName("Sampo Cap Bambang");
+        this.product.setProductQuantity(100);
+    }
 
     @Test
-    void testCreateAndFind() {
-        Product product = new Product();
-        product.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
-        product.setProductName("Sampo Cap Bambang");
-        product.setProductQuantity(100);
-        productRepository.create(product);
+    void testGetProductId() {
+        assertEquals("eb558e9f-1c39-460e-8860-71af6af63bd6", this.product.getProductId());
+    }
 
-        Iterator<Product> productIterator = productRepository.findAll();
-        assertTrue(productIterator.hasNext());
-        Product savedProduct = productIterator.next();
-        assertEquals(product.getProductId(), savedProduct.getProductId());
-        assertEquals(product.getProductName(), savedProduct.getProductName());
-        assertEquals(product.getProductQuantity(), savedProduct.getProductQuantity());
+    @Test
+    void testGetProductName() {
+        assertEquals("Sampo Cap Bambang", this.product.getProductName());
+    }
+
+    @Test
+    void testGetProductQuantity() {
+        assertEquals(100, this.product.getProductQuantity());
     }
 }
