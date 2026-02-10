@@ -33,6 +33,14 @@ public class ProductServiceImpl implements ProductService {
     public boolean delete(String productId) {
         return productRepository.delete(productId);
     }
+
+    @Override
+    public Product findById(String id) {
+        return productRepository.findById(id);
+    }
+
+    @Override
+    public Product update(Product product) {
+        return productRepository.update(product);
+    }
 }
-
-
