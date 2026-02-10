@@ -7,9 +7,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import java.time.Duration;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
@@ -33,15 +36,22 @@ class CreateProductFunctionalTest {
 
     @Test
     void createProduct_isCorrect(ChromeDriver driver) throws Exception {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
         driver.get(baseUrl + "/list");
 
-        WebElement createButton = driver.findElement(By.linkText("Create Product"));
+        WebElement createButton = wait.until(
+                ExpectedConditions.elementToBeClickable(By.linkText("Create Product"))
+        );
         createButton.click();
 
+        wait.until(ExpectedConditions.urlContains("/product/create"));
         String currentUrl = driver.getCurrentUrl();
         assertTrue(currentUrl.contains("/product/create"));
 
-        WebElement productNameInput = driver.findElement(By.id("nameInput"));
+        WebElement productNameInput = wait.until(
+                ExpectedConditions.presenceOfElementLocated(By.id("nameInput"))
+        );
         productNameInput.clear();
         productNameInput.sendKeys("Test Product Selenium");
 
@@ -52,10 +62,13 @@ class CreateProductFunctionalTest {
         WebElement submitButton = driver.findElement(By.cssSelector("button[type='submit']"));
         submitButton.click();
 
+        wait.until(ExpectedConditions.urlContains("/product/list"));
         currentUrl = driver.getCurrentUrl();
         assertTrue(currentUrl.contains("/product/list"));
 
-        WebElement productTable = driver.findElement(By.tagName("table"));
+        WebElement productTable = wait.until(
+                ExpectedConditions.presenceOfElementLocated(By.tagName("table"))
+        );
         List<WebElement> rows = productTable.findElements(By.tagName("tr"));
 
         assertTrue(rows.size() >= 2);
