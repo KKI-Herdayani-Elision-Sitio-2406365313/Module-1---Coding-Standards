@@ -135,6 +135,32 @@ class ProductRepositoryTest {
         assertFalse(result.getProductId().isEmpty());
     }
 
+    @Test
+    void testFindByIdNotFound() {
+        Product product = new Product();
+        product.setProductId("existing id");
+        product.setProductName("Existing Product");
+        product.setProductQuantity(5);
+        productRepository.create(product);
+        Product result = productRepository.findById("non existent id");
+        assertNull(result);
+    }
+
+    @Test
+    void testUpdateNonExistentProductInNonEmptyRepository() {
+        Product product = new Product();
+        product.setProductId("existing id");
+        product.setProductName("Existing");
+        product.setProductQuantity(10);
+        productRepository.create(product);
+        Product updatedProduct = new Product();
+        updatedProduct.setProductId("nonexistentId");
+        updatedProduct.setProductName("Nonexistent Product");
+        updatedProduct.setProductQuantity(99);
+        Product result = productRepository.update(updatedProduct);
+        assertNull(result);
+    }
+
 
 
 }
