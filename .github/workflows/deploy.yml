@@ -1,0 +1,33 @@
+name: Deploy to Koyeb
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java toolchain
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "21"
+          cache: "gradle"
+
+      - name: Build with Gradle
+        run: ./gradlew clean bootJar
+
+      - name: Install Koyeb CLI
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/koyeb/koyeb-cli/master/install.sh | bash
+
+      - name: Deploy to Koyeb
+        run: |
+          koyeb service redeploy eshop/eshop
+        env:
+          KOYEB_TOKEN: ${{ secrets.KOYEB_TOKEN }}
