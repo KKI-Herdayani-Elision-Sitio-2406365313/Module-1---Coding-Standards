@@ -12,6 +12,12 @@ plugins {
 	id("io.spring.dependency-management") version "1.1.7"
 }
 
+pmd {
+	toolVersion = "6.55.0"
+	isConsoleOutput = true
+	ruleSets = listOf("category/java/bestpractices.xml", "category/java/errorprone.xml")
+}
+
 group = "id.ac.ui.cs.advprog"
 version = "0.0.1-SNAPSHOT"
 description = "eshop"
@@ -51,7 +57,6 @@ dependencies {
 tasks.register<Test>("unitTest") {
 	description = "Runs unit tests."
 	group = "verification"
-
 	filter {
 		excludeTestsMatching("*FunctionalTest")
 	}
@@ -60,7 +65,6 @@ tasks.register<Test>("unitTest") {
 tasks.register<Test>("functionalTest") {
 	description = "Runs functional tests."
 	group = "verification"
-
 	filter {
 		includeTestsMatching("*FunctionalTest")
 	}
@@ -70,15 +74,17 @@ tasks.withType<Test>().configureEach {
 	useJUnitPlatform()
 }
 
-tasks.test{
-	filter{
-		excludeTestsMatching("funtional test")
-
+tasks.test {
+	filter {
+		excludeTestsMatching("*FunctionalTest")
 	}
-
 	finalizedBy(tasks.jacocoTestReport)
 }
 
-tasks.jacocoTestReport{
+tasks.jacocoTestReport {
+	reports {
+		xml.required.set(true)
+		html.required.set(true)
+	}
 	dependsOn(tasks.test)
 }
