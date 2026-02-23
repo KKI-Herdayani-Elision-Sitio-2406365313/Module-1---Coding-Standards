@@ -110,6 +110,32 @@ class ProductRepositoryTest {
         assertFalse(deleted);
     }
 
+    @Test
+    void testCreateWithNullProductId() {
+        Product product = new Product();
+        product.setProductId(null);
+        product.setProductName("No ID Product");
+        product.setProductQuantity(5);
+
+        Product result = productRepository.create(product);
+
+        assertNotNull(result.getProductId());
+        assertFalse(result.getProductId().isEmpty());
+    }
+
+    @Test
+    void testCreateWithEmptyProductId() {
+        Product product = new Product();
+        product.setProductId("");
+        product.setProductName("Empty ID Product");
+        product.setProductQuantity(5);
+
+        Product result = productRepository.create(product);
+        assertNotNull(result.getProductId());
+        assertFalse(result.getProductId().isEmpty());
+    }
+
+
 
 
 }
