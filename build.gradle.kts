@@ -76,6 +76,7 @@ tasks.withType<Test>().configureEach {
 }
 
 tasks.test {
+	jvmArgs("-Xmx512m", "-XX:+HeapDumpOnOutOfMemoryError")
 	filter {
 		excludeTestsMatching("*FunctionalTest")
 	}
