@@ -47,4 +47,33 @@ I believe my current implementation **meets the definition** of Continuous Integ
 
 2. **Analyzing the Quality:** Beyond basic tests, I integrated **PMD** to automatically scan to fulfill  CI principle of maintaining the quality of the code using automaed tools.
 
+# MODULE 3
+## Reflection
 
+### SOLID Principles
+
+1. **SRP (Single Responsibility Principle):** CarController was separated from ProductController into its own file. Each controller now has one responsibility.
+2. **OCP (Open/Closed Principle):** CarService is an interface and CarServiceImpl implements it. Create a new implementation class without modifying the existing CarServiceImpl.
+3. **LSP (Liskov Substitution Principle):** CarServiceImpl implements all methods in CarService. Any code that depends on CarService can use CarServiceImpl.
+4. **ISP (Interface Segregation Principle):** ProductService and CarService are separated so CarController only depends on CarService.
+5. **DIP (Dependency Inversion Principle):** CarController depends on the CarService interface, not directly to CarServiceImpl. This means controller does not need to know the specific implementation details of the service.
+
+---
+
+### Advantages of Applying SOLID Principles
+
+- **SRP**: Since CarController and ProductController are separated, changes to one will not affect the other. This makes the code easier to manage and debug.
+- **OCP**: We can add new features by creating a new class without touching the existing code, so we do not risk breaking anything that already works.
+- **LSP**: We can replace CarServiceImpl with another implementation and everything will still work as expected.
+- **ISP**: CarController only knows about car operations and ProductController only knows about product operations, so neither is burdened with unnecessary methods.
+- **DIP**: CarController depends on the CarService interface, so we can change the service implementation without touching the controller.
+
+---
+
+### Disadvantages of NOT Applying SOLID Principles
+
+- **Without SRP**: If both controllers are in the same file, the code becomes long and messy. A change in one part can accidentally break the other.
+- **Without OCP**: Every time we want to add a new feature, we have to change the existing code, which can introduce new bugs.
+- **Without LSP**: If a new implementation does not behave the same way, the code that depends on it will break in unexpected ways.
+- **Without ISP**: A controller would be forced to know about methods it does not need, making the code harder to understand.
+- **Without DIP**: If a controller directly creates its own service object, it becomes tightly tied to one specific implementation, making it hard to change or test.
