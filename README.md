@@ -77,3 +77,14 @@ I believe my current implementation **meets the definition** of Continuous Integ
 - **Without LSP**: If a new implementation does not behave the same way, the code that depends on it will break in unexpected ways.
 - **Without ISP**: A controller would be forced to know about methods it does not need, making the code harder to understand.
 - **Without DIP**: If a controller directly creates its own service object, it becomes tightly tied to one specific implementation, making it hard to change or test.
+
+# MODULE 4
+## Reflection
+### Reflect based on Percival (2017) flective questions (in “Principles and Best Practice of Testing” submodule, chapter “Evaluating Your Testing Objectives”)
+TDD means writing tests before writing the actual code, so the tests act as a guide for what the code should do. I found this useful because it helped me focus on one thing at a time and catch bugs early. However, I sometimes skipped ahead and wrote too much code at once instead of following the RED-GREEN-REFACTOR steps properly. Next time I will slow down and only write enough code to make one failing test pass before moving to the next.
+
+### F.I.R.S.T. Principle Reflection
+F.I.R.S.T. stands for Fast, Independent, Repeatable, Self-Validating, and Timely, which are the qualities that make a good unit test. Most of my tests are fast and repeatable since they run quickly and give the same result every time. However, some tests depend on other tests working correctly first which breaks the Independent principle, and there were times I wrote the implementation before the tests which breaks the Timely principle. Next time I will make each test set up its own data and always write the test before the implementation.
+
+
+
