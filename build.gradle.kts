@@ -13,6 +13,11 @@ plugins {
 
 }
 
+// 1. ADDED: Force Jacoco to use a version fully compatible with JDK 21
+jacoco {
+	toolVersion = "0.8.12"
+}
+
 pmd {
 	toolVersion = "6.55.0"
 	isConsoleOutput = true
@@ -46,13 +51,13 @@ dependencies {
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 	annotationProcessor("org.projectlombok:lombok")
+
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
 	testImplementation("org.seleniumhq.selenium:selenium-java:${seleniumJavaVersion}")
 	testImplementation("io.github.bonigarcia:selenium-jupiter:${seleniumJupiterVersion}")
 	testImplementation("io.github.bonigarcia:webdrivermanager:${webdrivermanagerVersion}")
-	testImplementation("org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}")
-	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}")
+
 	testCompileOnly("org.projectlombok:lombok")
 	testAnnotationProcessor("org.projectlombok:lombok")
 }
@@ -75,6 +80,7 @@ tasks.register<Test>("functionalTest") {
 
 tasks.withType<Test>().configureEach {
 	useJUnitPlatform()
+	jvmArgs("-XX:+EnableDynamicAgentLoading")
 }
 
 tasks.test {
